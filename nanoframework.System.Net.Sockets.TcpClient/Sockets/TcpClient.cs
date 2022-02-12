@@ -244,7 +244,8 @@ namespace System.Net.Sockets
                 }
                 catch (Exception)
                 {
-                    // Ignore exception
+                    // Ignore exception as we will throw NotConnected exception
+                    // if not connected, _active not set.
                 }
             }
 

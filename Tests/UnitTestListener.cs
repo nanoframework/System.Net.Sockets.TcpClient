@@ -10,13 +10,12 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 
-
 namespace NFUnitTests
 {
     [TestClass]
     public class TestTcpListener
     {
-        const int TESTPORT = 1234;
+        private const int TESTPORT = 1234;
 
         [Setup]
         public void Initialize()
@@ -48,33 +47,13 @@ namespace NFUnitTests
         [TestMethod]
         public void StateExceptionChecks()
         {
-            bool stateCheck;
-
             TcpListener listener = CreateListener();
 
-            stateCheck = false;
-            try
-            {
-                listener.Stop();
-            }
-            catch (InvalidOperationException)
-            {
-                stateCheck = true;
-            }
-            Assert.True(stateCheck, "No exception when stopping and not started");
+            Assert.Throws(typeof(InvalidOperationException), () => { listener.Stop(); }, "No exception when stopping and not started");
 
             listener.Start(1);
 
-            stateCheck = false;
-            try
-            {
-                listener.Start(1);
-            }
-            catch (InvalidOperationException)
-            {
-                stateCheck = true;
-            }
-            Assert.True(stateCheck, "No exception when starting and already started");
+            Assert.Throws(typeof(InvalidOperationException), () => { listener.Start(1); }, "No exception when starting and already started");
 
             listener.Stop();
         }

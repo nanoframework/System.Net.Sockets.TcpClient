@@ -30,7 +30,9 @@ namespace NFUnitTests
 
             // Init test data
             for (int i = 0; i < _testData.Length; i++)
+            {
                 _testData[i] = (byte)i;
+            }
         }
 
         [TestMethod]
@@ -44,7 +46,7 @@ namespace NFUnitTests
 
             Thread[] workers = new Thread[MaxConnections];
 
-            // Create listener on Loopback addres
+            // Create listener on Loop back address
             TcpListener listener = CreateListener();
 
             listener.Start(4);
@@ -60,7 +62,9 @@ namespace NFUnitTests
             {
                 // All connections accepted, break accept loop
                 if (connectionAccepted >= MaxConnections)
+                {
                     break;
+                }
 
                 try
                 {
@@ -96,8 +100,10 @@ namespace NFUnitTests
                         break;
                     }
                 }
+
                 Thread.Sleep(10);
             }
+
             Debug.WriteLine($"All workers ended");
         }
 
@@ -115,7 +121,6 @@ namespace NFUnitTests
             for (int count = 1; count < 20; count++)
             {
                 int length = count * 2;
-                ///Debug.WriteLine($"{workerID}: Sender count:{count} write len:{length} + 3 hdr");
                 
                 // Write header
                 stream.WriteByte(0xfc);
@@ -140,7 +145,6 @@ namespace NFUnitTests
 
                 int readBytes = stream.Read(buffer, 0, length);
                 Assert.True(readBytes == length, $"{workerID} Read bytes:{readBytes} <> requested length:{length}");
-                //Debug.WriteLine($"{workerID}: Read len:{readBytes}");
 
                 // Validate buffer
                 for (int i = 0; i < length; i++)
@@ -155,10 +159,12 @@ namespace NFUnitTests
             sender.Dispose();
         }
 
-
-        // Thread to echo back data received
-        // Data in format 0xFC, length:uint16, data bytes ....... 
-
+        /// <summary>
+        /// Thread to echo back data received
+        /// Data in format 0xFC, length:uint16, data bytes ....... 
+        /// </summary>
+        /// <param name="client">TcpClient</param>
+        /// <param name="workerID">ID for logging</param>
         public static void WorkerThread(TcpClient client, int workerID)
         {
             Debug.WriteLine($" {workerID}:Client connected to {client.Client.RemoteEndPoint.ToString()}");
@@ -167,8 +173,6 @@ namespace NFUnitTests
 
             // Set RX time outs on stream
             stream.ReadTimeout = 10000;
-
-            //Debug.WriteLine($"{workerID}: Log time outs, Read time out:{stream.ReadTimeout} Write time out:{stream.WriteTimeout}");
 
             // Netstream.Read will return straight away if there is no data to read 
             while (true)
@@ -183,16 +187,13 @@ namespace NFUnitTests
                         Debug.WriteLine($"{workerID}:Connection closed");
                         break;
                     }
-                    //Debug.WriteLine($"{workerID}:Read sync");
+
                     Assert.True(syncbyte == 0xfc, $"{workerID}:Sync byte != FC => {syncbyte}");
 
                     int lenL = stream.ReadByte();
-                    //Debug.WriteLine($"{workerID}:Read lenL {lenL}");
                     int lenH = stream.ReadByte();
-                    //Debug.WriteLine($"{workerID}:Read lenH {lenH}");
                     int dataLength = (lenH << 8) + lenL;
                     Assert.True(dataLength <= 512, $"{workerID}:Invalid length {dataLength}");
-                    //Debug.WriteLine($"{workerID}:Data length {dataLength}");
 
                     byte[] buffer = new byte[dataLength];
 
@@ -205,19 +206,17 @@ namespace NFUnitTests
                         int dataAv = client.Available;
                         if (dataAv > 0)
                         {
-                            //Debug.WriteLine($"{workerID}:Read data len {dataAv} pos {bufferPos}");
                             int bytesRead = stream.Read(buffer, bufferPos, dataAv);
                             bufferPos += bytesRead;
                             bytesToRead += bytesRead;
-                            //Debug.WriteLine($"{workerID}:Data Read bytes {bytesRead}");
                         }
                         else
+                        {
                             Thread.Sleep(0);
+                        }
                     }
 
                     Assert.True(bytesToRead == dataLength, $"{workerID}:Data read != availableInvalid length {dataLength}");
-
-                    //Debug.WriteLine($"{workerID}:Data {bytesToRead} bytes RX, echo back");
 
                     stream.WriteByte(0xfc);
                     stream.WriteByte((byte)(dataLength & 0xff)); // Low length
@@ -225,22 +224,22 @@ namespace NFUnitTests
 
                     // Echo data back
                     stream.Write(buffer, 0, dataLength);
-                    //Debug.WriteLine($"{workerID}:Data sent");
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"{workerID}:Worker exception {ex.Message}");
                     break;
                 }
-
             } // while
 
             client.Close();
             Debug.WriteLine($"{workerID}:Worker closed");
         }
 
-
-
+        /// <summary>
+        /// Create a TcpListener and check
+        /// </summary>
+        /// <returns>TcpListener</returns>
         public TcpListener CreateListener()
         {
             TcpListener listener = new TcpListener(IPAddress.Loopback, TESTPORT);

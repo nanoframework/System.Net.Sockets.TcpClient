@@ -5,10 +5,12 @@
 
 -----
 
-# System.NET.Sockets.TcpClient
+# System.Net.Sockets.TcpClient
 
-This API implements the TcpClient class with a pattern similar to the official .NET equivalent except for the asynchronous methods and the Connected property. [System.NET.Sockets.TcpClient](https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.TcpClient).
+This API implements the TcpListener and TcpClient classes with a pattern similar to the official .NET equivalent. [System.NET.Sockets.TcpClient](https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.TcpClient).
 
+These are wrapper classes for the Socket when using TCP connections.
+The nanoframework implementation of TcpClient doesn't include the asynchronous methods and the Connected property.
 
 ## Build status
 

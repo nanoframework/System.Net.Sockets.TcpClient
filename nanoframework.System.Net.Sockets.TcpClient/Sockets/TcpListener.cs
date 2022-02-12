@@ -11,10 +11,6 @@ namespace System.Net.Sockets
     /// </summary>
     public class TcpListener
     {
-        private EndPoint _localEndPoint;
-        private Socket _listenSocket;
-        private bool _active = false;
-
         /// <summary>
         /// Initializes a new instance of the TcpListener class that listens for incoming connection attempts on the specified local IP address and port number.
         /// </summary>
@@ -31,25 +27,25 @@ namespace System.Net.Sockets
         /// <param name="localEP">An IPEndPoint that represents the local endpoint to which to bind the listener Socket.</param>
         public TcpListener(IPEndPoint localEP)
         {
-            _localEndPoint = localEP;
-            _listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+            LocalEndpoint = localEP;
+            Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
         }
 
         /// <summary>
         /// Gets the underlying EndPoint of the current TcpListener.
         /// </summary>
-        public EndPoint LocalEndpoint { get => _localEndPoint; }
+        public EndPoint LocalEndpoint { get; }
 
         /// <summary>
         /// Gets the underlying network Socket.
         /// </summary>
-        public Socket Server { get => _listenSocket; }
+        public Socket Server { get; private set; }
 
         /// <summary>
         /// Gets a value that indicates whether TcpListener is actively listening 
         /// for client connections.
         /// </summary>
-        protected bool Active { get => _active; }
+        protected bool Active { get; private set; }
 
         /// <summary>
         /// Starts listening for incoming connection requests with a maximum number of pending connection.
@@ -57,21 +53,21 @@ namespace System.Net.Sockets
         /// <param name="backlog">The maximum length of the pending connections queue.</param>
         public void Start(int backlog)
         { 
-            if (_active)
+            if (Active)
             {
                 throw new InvalidOperationException();
             }
 
-            if (_listenSocket == null)
+            if (Server == null)
             {
-                _listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+                Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
             }
 
-            _listenSocket.Bind(_localEndPoint);
+            Server.Bind(LocalEndpoint);
 
-            _listenSocket.Listen(backlog);
+            Server.Listen(backlog);
 
-            _active = true;
+            Active = true;
         }
 
         /// <summary>
@@ -79,14 +75,14 @@ namespace System.Net.Sockets
         /// </summary>
         public void Stop()
         {
-            if (!_active)
+            if (Active)
             {
                 throw new InvalidOperationException();
             }
 
-            _listenSocket.Close();
-            _listenSocket = null;
-            _active = false;
+            Server.Close();
+            Server = null;
+            Active = false;
         }
 
         /// <summary>
@@ -95,7 +91,7 @@ namespace System.Net.Sockets
         /// <returns>A TcpClient used to send and receive data.</returns>
         public TcpClient AcceptTcpClient()
         {
-            TcpClient client = new TcpClient(_listenSocket.Accept());
+            TcpClient client = new TcpClient(Server.Accept());
 
             return client;
         }
@@ -106,7 +102,7 @@ namespace System.Net.Sockets
         /// <returns>A Socket used to send and receive data.</returns>
         public Socket AcceptSocket()
         {
-            return _listenSocket.Accept();
+            return Server.Accept();
         }
     }
 }
