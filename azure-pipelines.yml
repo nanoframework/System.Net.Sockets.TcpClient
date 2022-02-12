@@ -1,10 +1,27 @@
+# Copyright (c) .NET Foundation and Contributors
+# See LICENSE file in the project root for full license information.
+
 trigger:
   branches:
-    include: [main, develop, "release-*" ]
+    include:
+      - main
+      - develop
+      - release-*
   paths:
-    exclude: [README.md, LICENSE.md, NuGet.Config, .github_changelog_generator, .gitignore]
+    exclude:
+      - .github_changelog_generator
+      - .gitignore
+      - CHANGELOG.md
+      - CODE_OF_CONDUCT.md
+      - LICENSE.md
+      - README.md
+      - NuGet.Config
+      - assets/*
+      - config/*
+      - .github/*
   tags:
-    include: ["v*"]
+    include: 
+      - v*
 
 # PR always trigger build
 pr:
@@ -17,80 +34,29 @@ resources:
       type: github
       name: nanoframework/nf-tools
       endpoint: nanoframework
-     
-jobs:
 
-##############################
-- job: Build_Library
-  condition: or( eq(variables['UPDATE_DEPENDENTS'], 'false'), eq(variables['StartReleaseCandidate'], 'true') )
-  
-  pool:
-    vmImage: 'windows-2019'
+pool:
+  vmImage: 'windows-latest'
 
-  variables:
-    DOTNET_NOLOGO: true
-    solution: 'nanoFramework.System.Net.Sockets.TcpClient.sln'
-    buildPlatform: 'Any CPU'
-    buildConfiguration: 'Release'
-    nugetPackageName: 'nanoFramework.System.Net.Sockets.TcpClient'
+variables:
+  DOTNET_NOLOGO: true
+  solution: 'nanoFramework.System.Net.Sockets.TcpClient.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  nugetPackageName: 'nanoFramework.System.Net.Sockets.TcpClient'
 
-  steps:
+steps:
 
-  # step from template @ nf-tools repo
-  # all build, update and publish steps
-  - template: azure-pipelines-templates/class-lib-build.yml@templates
-    parameters:
-      sonarCloudProject: 'nanoframework_lib-nanoFramework.System.Net.Sockets.TcpClient'
-      runUnitTests: false
-      unitTestRunsettings: '$(System.DefaultWorkingDirectory)\Tests\SocketTests\nano.runsettings'
+# step from template @ nf-tools repo
+# build steps only
+- template: azure-pipelines-templates/class-lib-build.yml@templates  
+  parameters:
+    sonarCloudProject: 'nanoframework_System.Net.Sockets.TcpClient'
 
-##############################
-- job: Update_Dependents
-  condition: or( and( succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'), eq(variables['StartReleaseCandidate'], 'false') ), and( succeeded(), contains(variables['getCommitMessage.COMMIT_MESSAGE'], '***UPDATE_DEPENDENTS***'), eq(variables['StartReleaseCandidate'], 'false') ), eq(variables['UPDATE_DEPENDENTS'], 'true') )
-
-  dependsOn:
-  - Build_Library
-
-  pool:
-    vmImage: 'windows-2019'
-
-  variables:
-    DOTNET_NOLOGO: true
-
-  steps:
-
-  - checkout: none
-
-  # update dependents
-  - template: azure-pipelines-templates/update-dependents.yml@templates  
-    parameters:
-      repositoriesToUpdate: |
-        System.Net.Http
-        System.Net.WebSockets
-        System.Device.WiFi
-        nanoFramework.m2mqtt
-        nanoFramework.Azure.Devices
-
-##################################
-# report build failure to Discord
-- job: Report_Build_Failure
-  condition: or( failed('Build_Library'), failed('Update_Dependents'))
-
-  dependsOn:
-  - Build_Library
-  - Update_Dependents
-
-  pool:
-    vmImage: 'windows-2019'
-
-  steps:
-
-  - checkout: self
-      
-  # step from template @ nf-tools repo
-  # report error
-  - template: azure-pipelines-templates/discord-webhook-task.yml@templates  
-    parameters:
-      status: 'failure'
-      webhookUrl: '$(DiscordWebhook)'
-      message: ''
+# step from template @ nf-tools repo
+# report error
+- template: azure-pipelines-templates/discord-webhook-task.yml@templates  
+  parameters:
+    status: 'failure'
+    webhookUrl: '$(DiscordWebhook)'
+    message: ''

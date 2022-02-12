@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoframework.System.Net.Sockets.TcpClient", "nanoframework.System.Net.Sockets.TcpClient\nanoframework.System.Net.Sockets.TcpClient.nfproj", "{1D0F04E3-6AB6-4DE0-88D0-5E30F6F5719B}"
 EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Tests", "NFUnitTests\Tests.nfproj", "{A0DF7A0B-8DCD-4CFA-A29F-49F0C2400A07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,12 @@ Global
 		{1D0F04E3-6AB6-4DE0-88D0-5E30F6F5719B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D0F04E3-6AB6-4DE0-88D0-5E30F6F5719B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D0F04E3-6AB6-4DE0-88D0-5E30F6F5719B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A0DF7A0B-8DCD-4CFA-A29F-49F0C2400A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DF7A0B-8DCD-4CFA-A29F-49F0C2400A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DF7A0B-8DCD-4CFA-A29F-49F0C2400A07}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A0DF7A0B-8DCD-4CFA-A29F-49F0C2400A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DF7A0B-8DCD-4CFA-A29F-49F0C2400A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0DF7A0B-8DCD-4CFA-A29F-49F0C2400A07}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
