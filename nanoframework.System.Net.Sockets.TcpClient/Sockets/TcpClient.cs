@@ -350,16 +350,16 @@ namespace System.Net.Sockets
                     {
                         ipv4Socket.Close();
                     }
-                }
 
-                // Throw exception if connect failed
-                if (lastex != null)
-                {
-                    throw lastex;
-                }
-                else
-                {
-                    throw new SocketException(SocketError.NotConnected);
+                    // Throw exception if connect failed
+                    if (lastex != null)
+                    {
+                        throw lastex;
+                    }
+                    else
+                    {
+                        throw new SocketException(SocketError.NotConnected);
+                    }
                 }
             }
         }
