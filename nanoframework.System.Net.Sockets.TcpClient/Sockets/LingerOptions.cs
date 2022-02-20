@@ -34,5 +34,5 @@ namespace System.Net.Sockets
         /// The amount of time, in seconds, to remain connected after a close.
         /// </summary>
         public int LingerTime { get => _lingerTime; set => _lingerTime = value; }
-    } 
-} 
+    }
+}

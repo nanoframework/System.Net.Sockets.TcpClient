@@ -52,7 +52,7 @@ namespace System.Net.Sockets
         /// </summary>
         /// <param name="backlog">The maximum length of the pending connections queue.</param>
         public void Start(int backlog)
-        { 
+        {
             if (Active)
             {
                 throw new InvalidOperationException();
