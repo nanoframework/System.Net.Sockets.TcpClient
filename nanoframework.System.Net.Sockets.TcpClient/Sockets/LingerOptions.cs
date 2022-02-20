@@ -12,8 +12,6 @@ namespace System.Net.Sockets
     /// </summary>
     public class LingerOption
     {
-        int _lingerTime;
-
         /// <summary>
         /// Initializes a new instance of the <see cref='Sockets.LingerOption'/>
         /// </summary>
@@ -33,6 +31,6 @@ namespace System.Net.Sockets
         /// <summary>
         /// The amount of time, in seconds, to remain connected after a close.
         /// </summary>
-        public int LingerTime { get => _lingerTime; set => _lingerTime = value; }
+        public int LingerTime { get; set; }
     }
 }

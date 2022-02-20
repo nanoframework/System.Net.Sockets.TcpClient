@@ -13,7 +13,7 @@ namespace System.Net.Sockets
     {
         private NetworkStream _stream;
         private bool _disposed;
-        private AddressFamily _family = AddressFamily.InterNetwork;
+        private readonly AddressFamily _family = AddressFamily.InterNetwork;
         private bool _active;
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace System.Net.Sockets
             {
                 Connect(hostname, port);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Client?.Close();
-                throw ex;
+                throw;
             }
         }
 
@@ -197,7 +197,7 @@ namespace System.Net.Sockets
             get
             {
                 return (int)Client.GetSocketOption(SocketOptionLevel.Tcp,
-                                        SocketOptionName.NoDelay) != 0 ? true : false;
+                                        SocketOptionName.NoDelay) != 0;
             }
 
             set
@@ -351,15 +351,19 @@ namespace System.Net.Sockets
                         ipv4Socket.Close();
                     }
 
-                    // Throw exception if connect failed
-                    if (lastex != null)
-                    {
-                        throw lastex;
-                    }
-                    else
-                    {
-                        throw new SocketException(SocketError.NotConnected);
-                    }
+                }
+            }
+
+            if (!_active)
+            {
+                // Throw exception if connect failed
+                if (lastex != null)
+                {
+                    throw lastex;
+                }
+                else
+                {
+                    throw new SocketException(SocketError.NotConnected);
                 }
             }
         }
