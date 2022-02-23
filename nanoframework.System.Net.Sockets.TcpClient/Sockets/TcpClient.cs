@@ -6,13 +6,15 @@
 
 namespace System.Net.Sockets
 {
+    /// <summary>
+    /// Provides client connections for TCP network services.
+    /// </summary>
     public class TcpClient : IDisposable
     {
-        private Socket _client;
         private NetworkStream _stream;
-        private bool disposedValue;
-        private AddressFamily _family = AddressFamily.InterNetwork;
-        bool _active;
+        private bool _disposed;
+        private readonly AddressFamily _family = AddressFamily.InterNetwork;
+        private bool _active;
 
         /// <summary>
         /// Initializes a new instance of the TcpClient class.
@@ -29,7 +31,7 @@ namespace System.Net.Sockets
         {
             _family = localEP.AddressFamily;
             initialize();
-            _client.Bind(localEP);
+            Client.Bind(localEP);
         }
 
         /// <summary>
@@ -54,10 +56,10 @@ namespace System.Net.Sockets
             {
                 Connect(hostname, port);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _client?.Close();
-                throw ex;
+                Client?.Close();
+                throw;
             }
         }
 
@@ -67,18 +69,14 @@ namespace System.Net.Sockets
         /// <param name="acceptedSocket"></param>
         internal TcpClient(Socket acceptedSocket)
         {
-            _client = acceptedSocket;
+            Client = acceptedSocket;
             _active = true;
         }
 
         /// <summary>
         /// Gets or sets the underlying Socket.
         /// </summary>
-        public Socket Client
-        {
-            get => _client;
-            set => _client = value;
-        }
+        public Socket Client { get; set; }
 
         /// <summary>
         /// Returns the NetworkStream used to send and receive data to remote host.
@@ -86,15 +84,11 @@ namespace System.Net.Sockets
         /// <returns>The underlying NetworkStream.</returns>
         public NetworkStream GetStream()
         {
-            //if (!_client.Connected)
-            //         {
-            //	throw new InvalidOperationException("Not connected");
-            //         }
-
             if (_stream == null)
             {
                 _stream = new NetworkStream(Client, true);
             }
+
             return _stream;
         }
 
@@ -102,20 +96,30 @@ namespace System.Net.Sockets
         /// Gets the amount of data that has been received from the network 
         /// and is available to be read.
         /// </summary>
-        public int Available { get => _client.Available; }
+        public int Available { get => Client.Available; }
 
+        private byte[] MilliSecsToTimeval(int millSecs)
+        {
+            byte[] timeval = new byte[8];
+            int secs = millSecs / 1000;
+            int usecs = (millSecs % 1000) * 1000;
 
-        /// <summary>
-        /// Return connection status of underlying socket.
-        /// </summary>
-        public bool Connected
-        { 
-            get 
-            {
-                // We should be returning the _client.Connected state but that's not available
-                // so for the moment just return active state
-                return _active;
-            } 
+            byte[] bsecs = BitConverter.GetBytes(secs);
+            byte[] busecs = BitConverter.GetBytes(usecs);
+            Array.Copy(bsecs, timeval, 4);
+            Array.Copy(busecs, 0, timeval, 4, 4);
+
+            return timeval;
+        }
+
+        private int TimevalToMilliSecs(byte[] timeval)
+        {
+            // Bytes 0 - 3 secs
+            // Bytes 4 - 7 usecs
+            int secs = BitConverter.ToInt32(timeval, 0);
+            int usecs = BitConverter.ToInt32(timeval, 4);
+
+            return (secs * 1000) + (usecs / 1000);
         }
 
         /// <summary>
@@ -125,13 +129,20 @@ namespace System.Net.Sockets
         {
             get
             {
-                return (int)Client.GetSocketOption(SocketOptionLevel.Socket,
-                                    SocketOptionName.ReceiveTimeout);
+                byte[] timeval = new byte[8];
+
+                Client.GetSocketOption(SocketOptionLevel.Socket,
+                    SocketOptionName.ReceiveTimeout, timeval);
+
+                return TimevalToMilliSecs(timeval);
             }
+
             set
             {
+                byte[] timeval = MilliSecsToTimeval(value);
+
                 Client.SetSocketOption(SocketOptionLevel.Socket,
-                                  SocketOptionName.ReceiveTimeout, value);
+                                  SocketOptionName.ReceiveTimeout, timeval);
             }
         }
 
@@ -142,14 +153,20 @@ namespace System.Net.Sockets
         {
             get
             {
-                return (int)Client.GetSocketOption(SocketOptionLevel.Socket,
-                                    SocketOptionName.SendTimeout);
+                byte[] timeval = new byte[8];
+
+                Client.GetSocketOption(SocketOptionLevel.Socket,
+                    SocketOptionName.SendTimeout, timeval);
+
+                return TimevalToMilliSecs(timeval);
             }
 
             set
             {
+                byte[] timeval = MilliSecsToTimeval(value);
+
                 Client.SetSocketOption(SocketOptionLevel.Socket,
-                        SocketOptionName.SendTimeout, value);
+                        SocketOptionName.SendTimeout, timeval);
             }
         }
 
@@ -161,8 +178,9 @@ namespace System.Net.Sockets
             get
             {
                 int optionValue = (int)Client.GetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Linger);
-                return (optionValue < 0)? new LingerOption(false, 0) : new LingerOption(true, optionValue);
+                return (optionValue < 0) ? new LingerOption(false, 0) : new LingerOption(true, optionValue);
             }
+
             set
             {
                 int optionValue = value.Enabled ? value.LingerTime : -1;
@@ -171,15 +189,17 @@ namespace System.Net.Sockets
         }
 
         /// <summary>
-        /// Enables or disables delay when send or receive buffers are full.
+        /// Enables or disables delay when send or receive buffers are not full. (Nagle)
+        /// True if delay is disabled.
         /// </summary>
         public bool NoDelay
         {
             get
             {
                 return (int)Client.GetSocketOption(SocketOptionLevel.Tcp,
-                                        SocketOptionName.NoDelay) != 0 ? true : false;
+                                        SocketOptionName.NoDelay) != 0;
             }
+
             set
             {
                 Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, value ? 1 : 0);
@@ -193,7 +213,7 @@ namespace System.Net.Sockets
         /// <param name="remoteEP">The IPEndPoint to which you intend to connect.</param>
         public void Connect(IPEndPoint remoteEP)
         {
-            _client.Connect(remoteEP);
+            Client.Connect(remoteEP);
             _active = true;
         }
 
@@ -215,7 +235,24 @@ namespace System.Net.Sockets
         /// <param name="port">The port number to which you intend to connect.</param>
         public void Connect(IPAddress[] address, int port)
         {
-            Connect(new IPEndPoint(address[0], port));
+            foreach (IPAddress ipadr in address)
+            {
+                try
+                {
+                    Connect(new IPEndPoint(ipadr, port));
+                    break;
+                }
+                catch (Exception)
+                {
+                    // Ignore exception as we will throw NotConnected exception
+                    // if not connected, _active not set.
+                }
+            }
+
+            if (!_active)
+            {
+                throw new SocketException(SocketError.NotConnected);
+            }
         }
 
         /// <summary>
@@ -238,7 +275,7 @@ namespace System.Net.Sockets
             try
             {
                 // Via host name, port constructor ?
-                if (_client == null)
+                if (Client == null)
                 {
                     ipv4Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     ipv6Socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.Tcp);
@@ -248,12 +285,12 @@ namespace System.Net.Sockets
                 {
                     try
                     {
-                        if (_client == null)
+                        if (Client == null)
                         {
                             if (address.AddressFamily == AddressFamily.InterNetwork && ipv4Socket != null)
                             {
                                 ipv4Socket.Connect(new IPEndPoint(address, port));
-                                _client = ipv4Socket;
+                                Client = ipv4Socket;
                                 if (ipv6Socket != null)
                                 {
                                     ipv6Socket.Close();
@@ -262,7 +299,7 @@ namespace System.Net.Sockets
                             else if (ipv6Socket != null)
                             {
                                 ipv6Socket.Connect(new IPEndPoint(address, port));
-                                _client = ipv4Socket;
+                                Client = ipv4Socket;
                                 if (ipv4Socket != null)
                                 {
                                     ipv4Socket.Close();
@@ -285,6 +322,7 @@ namespace System.Net.Sockets
                         {
                             throw;
                         }
+
                         lastex = ex;
                     }
                 } // for each address
@@ -295,6 +333,7 @@ namespace System.Net.Sockets
                 {
                     throw;
                 }
+
                 lastex = ex;
             }
             finally
@@ -311,8 +350,12 @@ namespace System.Net.Sockets
                     {
                         ipv4Socket.Close();
                     }
-                }
 
+                }
+            }
+
+            if (!_active)
+            {
                 // Throw exception if connect failed
                 if (lastex != null)
                 {
@@ -336,22 +379,22 @@ namespace System.Net.Sockets
 
         private void initialize()
         {
-            _client = new Socket(_family, SocketType.Stream, ProtocolType.Tcp);
+            Client = new Socket(_family, SocketType.Stream, ProtocolType.Tcp);
             _active = false;
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     _stream?.Dispose();
-                    _client?.Close();
-                    _client = null;
+                    Client?.Close();
+                    Client = null;
                 }
 
-                disposedValue = true;
+                _disposed = true;
             }
         }
 
