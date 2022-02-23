@@ -22,18 +22,19 @@ The nanoframework implementation of TcpClient doesn't include the asynchronous m
 
 ## Usage
 
-**Important:** Obviously this requires a working network connection. Please check the examples with the Network Helpers on how to connect to a network.
+**Important:** Obviously this requires a working network connection. Please check the examples with the Network Helpers on how to connect to a network. For example see the [Networking sample pack](https://github.com/nanoframework/Samples/tree/main/samples/Networking)
 
 The `TcpListener` class provides simple methods for creating a listening socket to accept incoming TCP connections and the `TcpClient` provides methods for connecting and communicating on a TCP connection.
 
 ### Samples
+
 Samples for `TcpListener` and `TcpClient` are present in the [nanoFramework Sample repository](https://github.com/nanoframework/Samples).
 
 ### Listening for incoming connections
 
 The following codes shows how to set up a Listening socket and to accept connections as a TcpClient on the 1234 port.
 
-```c#
+```csharp
 TcpListener listener = new TcpListener(IPAddress.Any, 1234);
 
 // Start listening for incoming connections
@@ -66,12 +67,11 @@ while (true)
         Debug.WriteLine($"Exception:-{ex.Message}");
     }
 }
-
 ```
 
 If you want to handle more then one simultaneous connection then a separate worker thread can be started.
 
-```c#
+```csharp
 TcpListener listener = new TcpListener(IPAddress.Any, 1234);
 
 // Start listening for incoming connections with backlog
@@ -97,7 +97,7 @@ while (true)
 
 Worker Thread for handling the TcpClient connection for TcpListener example.
 
-```c#
+```csharp
 private static void WorkerThread(TcpClient client)
 {
     try
@@ -133,7 +133,7 @@ private static void WorkerThread(TcpClient client)
 The TcpClient can also be used to initiate a connection passing in the hostname/port or IPEndPoint. 
 Maybe connecting to another nanoFramework device which is listening for connections.  
 
-```C#
+```csharp
 TcpClient client = new TcpClient()
 
 try
@@ -164,9 +164,9 @@ finally
 }
 ```
 
-For secure connections a SslStream can be used.
+For secure connections a `SslStream` can be used.
 
-```C#
+```csharp
 client.Connect(HostName, 443);
 
 // Create SSlStream from underlying SOcket
@@ -178,7 +178,6 @@ stream.AuthenticateAsClient(HostName, SslProtocols.Tls12);
 
 // stream.Write() or stream.Read()
 ```
-
 
 ## Feedback and documentation
 
