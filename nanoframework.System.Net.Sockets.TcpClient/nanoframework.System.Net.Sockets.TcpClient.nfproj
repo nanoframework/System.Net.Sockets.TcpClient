@@ -12,9 +12,11 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>nanoframework.System.Net.Sockets.TcpClient</RootNamespace>
-    <AssemblyName>nanoframework.System.Net.Sockets.TcpClient</AssemblyName>
+    <RootNamespace>System.Net.Sockets.TcpClient</RootNamespace>
+    <AssemblyName>System.Net.Sockets.TcpClient</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <NF_IsCoreLibrary>True</NF_IsCoreLibrary>
+    <DocumentationFile>bin\$(Configuration)\System.Net.Sockets.TcpClient.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
