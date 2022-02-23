@@ -6,7 +6,7 @@
                                                                                
 ===================================================================================
 
-API docs: https://docs.nanoframework.net/api/nanoFramework.System.Net.html
+API docs: https://docs.nanoframework.net/api/System.Net.Sockets.TcpClient.html
 
 Browse our samples repository: https://github.com/nanoframework/samples
 

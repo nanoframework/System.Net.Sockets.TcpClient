@@ -3,9 +3,8 @@
 	<metadata>
 		<id>nanoframework.System.Net.Sockets.TcpClient</id>
 		<version>$version$</version>
-		<title>nanoframework.System.Net.Sockets.TcpClient</title>
-		<authors>nanoFramework project contributors</authors>
-		<owners>nanoFramework,dotnetfoundation</owners>
+		<title>nanoFramework.System.Net.Sockets.TcpClient</title>
+		<authors>nanoframework</authors>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="file">LICENSE.md</license>
 		<releaseNotes>
@@ -16,11 +15,8 @@
 		<icon>images\nf-logo.png</icon>
 		<repository type="git" url="https://github.com/nanoframework/System.Net.Sockets.TcpClient" commit="$commit$" />
 		<copyright>Copyright (c) .NET Foundation and Contributors</copyright>
-		<description>
-			This package includes the .NET nanoFramework System.Net assembly for .NET nanoFramework C# projects.
-			This package requires a target with System.Net v$nativeVersion$ (checksum $checksum$).
-		</description>
-		<tags>nanoFramework C# csharp netmf netnf nanoFramework.System.Net</tags>
+		<description>This package includes the System.Net.Sockets.TcpClient assembly for .NET nanoFramework C# projects.</description>
+		<tags>nanoFramework C# csharp netmf netnf tcpclient networking</tags>
 		<dependencies>
 			<dependency id="nanoFramework.CoreLibrary" version="1.12.0-preview.9" />
 			<dependency id="nanoFramework.Runtime.Events" version="1.10.0-preview.8" />
@@ -31,11 +27,11 @@
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.dll" target="lib\System.Net.Sockets.TcpClient.dll" />
-		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.pdb" target="lib\System.Net.Sockets.TcpClient.pdb" />
-		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.pdbx" target="lib\System.Net.Sockets.TcpClient.pdbx" />
-		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.pe" target="lib\System.Net.Sockets.TcpClient.pe" />
-		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.xml" target="lib\System.Net.Sockets.TcpClient.xml" />
+		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.dll" target="lib\System.Net.Sockets.TcpClient.dll" />
+		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.pdb" target="lib\System.Net.Sockets.TcpClient.pdb" />
+		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.pdbx" target="lib\System.Net.Sockets.TcpClient.pdbx" />
+		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.pe" target="lib\System.Net.Sockets.TcpClient.pe" />
+		<file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.xml" target="lib\System.Net.Sockets.TcpClient.xml" />
 		<file src="assets\readme.txt" target="" />
 		<file src="README.md" target="docs\" />
 		<file src="assets\nf-logo.png" target="images" />

@@ -383,6 +383,7 @@ namespace System.Net.Sockets
             _active = false;
         }
 
+        /// <inheritdoc/>
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
