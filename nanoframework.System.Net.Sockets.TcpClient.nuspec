@@ -3,7 +3,7 @@
 	<metadata>
 		<id>nanoframework.System.Net.Sockets.TcpClient</id>
 		<version>$version$</version>
-		<title>nanoframework.System.Net.Sockets.TcpClient</title>
+		<title>nanoFramework.System.Net.Sockets.TcpClient</title>
 		<authors>nanoframework</authors>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="file">LICENSE.md</license>
