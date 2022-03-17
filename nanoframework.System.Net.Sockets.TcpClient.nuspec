@@ -18,10 +18,10 @@
     <description>This package includes the System.Net.Sockets.TcpClient assembly for .NET nanoFramework C# projects.</description>
     <tags>nanoFramework C# csharp netmf netnf tcpclient networking</tags>
     <dependencies>
-      <dependency id="nanoFramework.CoreLibrary" version="1.12.0-preview.18" />
-      <dependency id="nanoFramework.Runtime.Events" version="1.10.0-preview.11" />
-      <dependency id="nanoFramework.System.IO.Streams" version="1.0.0-preview.17" />
-      <dependency id="nanoFramework.System.Net" version="1.8.0-preview.39" />
+      <dependency id="nanoFramework.CoreLibrary" version="1.12.0-preview.19" />
+      <dependency id="nanoFramework.Runtime.Events" version="1.10.0-preview.13" />
+      <dependency id="nanoFramework.System.IO.Streams" version="1.0.0-preview.19" />
+      <dependency id="nanoFramework.System.Net" version="1.8.0-preview.43" />
       <dependency id="nanoFramework.System.Text" version="1.1.3-preview.15" />
       <dependency id="nanoFramework.System.Threading" version="1.0.4-preview.16" />
     </dependencies>
