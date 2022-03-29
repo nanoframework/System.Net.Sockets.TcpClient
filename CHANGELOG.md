@@ -2,7 +2,16 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/System.Net.Sockets.TcpClient/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.0.0-preview.7...HEAD)
+[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.0.0-preview.9...HEAD)
+
+**Documentation and other chores:**
+
+- Update 5 NuGet dependencies [\#9](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/9)
+- Update 1 NuGet dependencies [\#8](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/8)
+
+## [v1.0.0-preview.9](https://github.com/nanoframework/System.Net.Sockets.TcpClient/tree/v1.0.0-preview.9) (2022-03-17)
+
+[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.0.0-preview.7...v1.0.0-preview.9)
 
 **Documentation and other chores:**
 
