@@ -6,6 +6,7 @@
 
 **Documentation and other chores:**
 
+- Update 1 NuGet dependencies [\#17](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/17)
 - Update 1 NuGet dependencies [\#16](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/16)
 - Update 1 NuGet dependencies [\#15](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/15)
 - Update 1 NuGet dependencies [\#14](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/14)
