@@ -75,7 +75,7 @@ namespace System.Net.Sockets
         /// </summary>
         public void Stop()
         {
-            if (Active)
+            if (!Active)
             {
                 throw new InvalidOperationException();
             }
