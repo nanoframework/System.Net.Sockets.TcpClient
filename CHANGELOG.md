@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/System.Net.Sockets.TcpClient/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.0.0.19...HEAD)
+[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.0.0.21...HEAD)
+
+**Fixed bugs:**
+
+- Fixed wrong check in TcpListener.Stop\(\) [\#25](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/25)
+
+## [v1.0.0.21](https://github.com/nanoframework/System.Net.Sockets.TcpClient/tree/v1.0.0.21) (2022-06-13)
+
+[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.0.0.19...v1.0.0.21)
 
 **Documentation and other chores:**
 
