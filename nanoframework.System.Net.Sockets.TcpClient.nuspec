@@ -19,8 +19,8 @@
     <tags>nanoFramework C# csharp netmf netnf tcpclient networking</tags>
     <dependencies>
       <dependency id="nanoFramework.CoreLibrary" version="1.12.0" />
-      <dependency id="nanoFramework.System.IO.Streams" version="1.1.24" />
-      <dependency id="nanoFramework.System.Net" version="1.10.36" />
+      <dependency id="nanoFramework.System.IO.Streams" version="1.1.27" />
+      <dependency id="nanoFramework.System.Net" version="1.10.38" />
     </dependencies>
   </metadata>
   <files>
