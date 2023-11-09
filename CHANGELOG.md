@@ -2,7 +2,20 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/System.Net.Sockets.TcpClient/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.1.50...HEAD)
+[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.1.52...HEAD)
+
+**Documentation and other chores:**
+
+- Update 4 NuGet dependencies [\#70](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/70)
+- Update 1 NuGet dependencies [\#69](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/69)
+- Update 1 NuGet dependencies [\#68](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/68)
+- Update 2 NuGet dependencies [\#67](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/67)
+- Update 1 NuGet dependencies [\#62](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/62)
+- Update 1 NuGet dependencies [\#61](https://github.com/nanoframework/System.Net.Sockets.TcpClient/pull/61)
+
+## [v1.1.52](https://github.com/nanoframework/System.Net.Sockets.TcpClient/tree/v1.1.52) (2022-12-28)
+
+[Full Changelog](https://github.com/nanoframework/System.Net.Sockets.TcpClient/compare/v1.1.50...v1.1.52)
 
 **Documentation and other chores:**
 
