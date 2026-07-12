@@ -28,7 +28,7 @@ namespace System.Net.Sockets
         public TcpListener(IPEndPoint localEP)
         {
             LocalEndpoint = localEP;
-            Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+            Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace System.Net.Sockets
 
             if (Server == null)
             {
-                Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IPv4);
+                Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             }
 
             Server.Bind(LocalEndpoint);
