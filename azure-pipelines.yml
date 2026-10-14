@@ -51,6 +51,7 @@ steps:
 # build steps only
 - template: azure-pipelines-templates/class-lib-build.yml@templates  
   parameters:
+    usePreviewBuild: true
     sonarCloudProject: 'nanoframework_System.Net.Sockets.TcpClient'
 
 # step from template @ nf-tools repo

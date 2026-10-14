@@ -137,19 +137,19 @@ namespace NFUnitTests
                 Array.Clear(buffer, 0, length);
 
                 int sync = stream.ReadByte();
-                Assert.True(sync == 0xfc, $"{workerID} count={count} read sync != 0xfc => {sync}");
+                Assert.IsTrue(sync == 0xfc, $"{workerID} count={count} read sync != 0xfc => {sync}");
                 int lenL = stream.ReadByte();
                 int lenH = stream.ReadByte();
                 int dataLength = (lenH << 8) + lenL;
-                Assert.True(dataLength == length, $"{workerID} Sender rx invalid length {dataLength} should be {length}");
+                Assert.IsTrue(dataLength == length, $"{workerID} Sender rx invalid length {dataLength} should be {length}");
 
                 int readBytes = stream.Read(buffer, 0, length);
-                Assert.True(readBytes == length, $"{workerID} Read bytes:{readBytes} <> requested length:{length}");
+                Assert.IsTrue(readBytes == length, $"{workerID} Read bytes:{readBytes} <> requested length:{length}");
 
                 // Validate buffer
                 for (int i = 0; i < length; i++)
                 {
-                    Assert.False(buffer[i] != _testData[i + count], $"Received data not same as send, position:{i} {buffer[i]}!={_testData[i + count]}");
+                    Assert.IsFalse(buffer[i] != _testData[i + count], $"Received data not same as send, position:{i} {buffer[i]}!={_testData[i + count]}");
                 }
                 
                 Debug.WriteLine($"{workerID}: Send/Receive count:{count} complete");
@@ -188,12 +188,12 @@ namespace NFUnitTests
                         break;
                     }
 
-                    Assert.True(syncbyte == 0xfc, $"{workerID}:Sync byte != FC => {syncbyte}");
+                    Assert.IsTrue(syncbyte == 0xfc, $"{workerID}:Sync byte != FC => {syncbyte}");
 
                     int lenL = stream.ReadByte();
                     int lenH = stream.ReadByte();
                     int dataLength = (lenH << 8) + lenL;
-                    Assert.True(dataLength <= 512, $"{workerID}:Invalid length {dataLength}");
+                    Assert.IsTrue(dataLength <= 512, $"{workerID}:Invalid length {dataLength}");
 
                     byte[] buffer = new byte[dataLength];
 
@@ -216,7 +216,7 @@ namespace NFUnitTests
                         }
                     }
 
-                    Assert.True(bytesToRead == dataLength, $"{workerID}:Data read != availableInvalid length {dataLength}");
+                    Assert.IsTrue(bytesToRead == dataLength, $"{workerID}:Data read != availableInvalid length {dataLength}");
 
                     stream.WriteByte(0xfc);
                     stream.WriteByte((byte)(dataLength & 0xff)); // Low length
@@ -243,13 +243,13 @@ namespace NFUnitTests
         public TcpListener CreateListener()
         {
             TcpListener listener = new TcpListener(IPAddress.Loopback, TESTPORT);
-            Assert.NotNull(listener);
+            Assert.IsNotNull(listener);
 
             Debug.WriteLine("TcpListener created.");
 
-            Assert.Equal(((IPEndPoint)listener.LocalEndpoint).Port, TESTPORT, "Wrong port on Listener");
-            Assert.Equal((int)((IPEndPoint)listener.LocalEndpoint).AddressFamily, (int)AddressFamily.InterNetwork, "Wrong address family");
-            Assert.True(((IPEndPoint)listener.LocalEndpoint).Address == IPAddress.Loopback, "Wrong IP address");
+            Assert.AreEqual(((IPEndPoint)listener.LocalEndpoint).Port, TESTPORT, "Wrong port on Listener");
+            Assert.AreEqual((int)((IPEndPoint)listener.LocalEndpoint).AddressFamily, (int)AddressFamily.InterNetwork, "Wrong address family");
+            Assert.IsTrue(((IPEndPoint)listener.LocalEndpoint).Address == IPAddress.Loopback, "Wrong IP address");
 
             return listener;
         }

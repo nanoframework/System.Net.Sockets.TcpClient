@@ -37,7 +37,7 @@ namespace NFUnitTests
 
             // Get underlying socket
             Socket listenSocket = listener.Server;
-            Assert.NotNull(listenSocket, "Listen socket null");
+            Assert.IsNotNull(listenSocket, "Listen socket null");
 
             listener.Stop();
 
@@ -49,11 +49,11 @@ namespace NFUnitTests
         {
             TcpListener listener = CreateListener();
 
-            Assert.Throws(typeof(InvalidOperationException), () => { listener.Stop(); }, "No exception when stopping and not started");
+            Assert.ThrowsException(typeof(InvalidOperationException), () => { listener.Stop(); }, "No exception when stopping and not started");
 
             listener.Start(1);
 
-            Assert.Throws(typeof(InvalidOperationException), () => { listener.Start(1); }, "No exception when starting and already started");
+            Assert.ThrowsException(typeof(InvalidOperationException), () => { listener.Start(1); }, "No exception when starting and already started");
 
             listener.Stop();
         }
@@ -61,13 +61,13 @@ namespace NFUnitTests
         public TcpListener CreateListener()
         {
             TcpListener listener = new TcpListener(IPAddress.Loopback, TESTPORT);
-            Assert.NotNull(listener);
+            Assert.IsNotNull(listener);
 
             Debug.WriteLine("TcpListener created.");
 
-            Assert.Equal(((IPEndPoint)listener.LocalEndpoint).Port, TESTPORT, "Wrong port on Listener");
-            Assert.Equal((int)((IPEndPoint)listener.LocalEndpoint).AddressFamily, (int)AddressFamily.InterNetwork, "Wrong address family");
-            Assert.True(((IPEndPoint)listener.LocalEndpoint).Address == IPAddress.Loopback, "Wrong IP address");
+            Assert.AreEqual(((IPEndPoint)listener.LocalEndpoint).Port, TESTPORT, "Wrong port on Listener");
+            Assert.AreEqual((int)((IPEndPoint)listener.LocalEndpoint).AddressFamily, (int)AddressFamily.InterNetwork, "Wrong address family");
+            Assert.IsTrue(((IPEndPoint)listener.LocalEndpoint).Address == IPAddress.Loopback, "Wrong IP address");
 
             return listener;
         }
