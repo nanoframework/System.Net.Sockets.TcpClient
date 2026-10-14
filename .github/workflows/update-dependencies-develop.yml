@@ -1,0 +1,20 @@
+# Copyright (c) .NET Foundation and Contributors
+# See LICENSE file in the project root for full license information.
+
+name: Update .NET nanoFramework preview dependencies
+
+on:
+  schedule:
+  - cron: '10 00 * * Mon,Thu'
+  repository_dispatch:
+    types: update-dependencies-develop
+
+jobs:
+  update-dependencies:
+    name: nanoFramework
+    uses: nanoframework/nf-tools/.github/workflows/update-dependencies.yml@main
+    secrets: inherit
+    with:
+      solutionsToCheck: 'nanoframework.System.Net.Sockets.TcpClient.sln'
+      previewPackages: true
+      branchToPr: develop
