@@ -19,6 +19,8 @@ The nanoframework implementation of TcpClient doesn't include the asynchronous m
 
 ## Usage
 
+The v2 preview packages require v2-compatible .NET nanoFramework firmware and preview dependencies. Enable prerelease packages when installing the v2 preview. Tests use the preview CLR through `Tests\nano.runsettings`; network tests remain skipped unless a suitable network target is configured.
+
 **Important:** Obviously this requires a working network connection. Please check the examples with the Network Helpers on how to connect to a network. For example see the [Networking sample pack](https://github.com/nanoframework/Samples/tree/main/samples/Networking)
 
 The `TcpListener` class provides simple methods for creating a listening socket to accept incoming TCP connections and the `TcpClient` provides methods for connecting and communicating on a TCP connection.

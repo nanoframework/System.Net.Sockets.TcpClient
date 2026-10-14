@@ -18,17 +18,15 @@
     <description>This package includes the System.Net.Sockets.TcpClient assembly for .NET nanoFramework C# projects.</description>
     <tags>nanoFramework C# csharp netmf netnf tcpclient networking</tags>
     <dependencies>
-      <dependency id="nanoFramework.CoreLibrary" version="1.17.11" />
-      <dependency id="nanoFramework.System.IO.Streams" version="1.1.96" />
-      <dependency id="nanoFramework.System.Net" version="1.11.64" />
+      <group targetFramework=".NETnanoFramework1.0">
+        <dependency id="nanoFramework.CoreLibrary" version="2.0.0-preview.63" />
+        <dependency id="nanoFramework.System.IO.Streams" version="2.0.0-preview.29" />
+        <dependency id="nanoFramework.System.Net" version="2.0.0-preview.43" />
+      </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.dll" target="lib\System.Net.Sockets.TcpClient.dll" />
-    <file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.pdb" target="lib\System.Net.Sockets.TcpClient.pdb" />
-    <file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.pdbx" target="lib\System.Net.Sockets.TcpClient.pdbx" />
-    <file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.pe" target="lib\System.Net.Sockets.TcpClient.pe" />
-    <file src="nanoFramework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.xml" target="lib\System.Net.Sockets.TcpClient.xml" />
+    <file src="nanoframework.System.Net.Sockets.TcpClient\bin\Release\System.Net.Sockets.TcpClient.*" target="lib\netnano1.0" />
     <file src="assets\readme.txt" target="" />
     <file src="README.md" target="docs\" />
     <file src="assets\nf-logo.png" target="images" />
