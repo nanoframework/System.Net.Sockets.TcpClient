@@ -21,7 +21,7 @@
       <group targetFramework=".NETnanoFramework1.0">
         <dependency id="nanoFramework.CoreLibrary" version="2.0.0-preview.125" />
         <dependency id="nanoFramework.System.IO.Streams" version="2.0.0-preview.33" />
-        <dependency id="nanoFramework.System.Net" version="2.0.0-preview.58" />
+        <dependency id="nanoFramework.System.Net" version="2.0.0-preview.60" />
       </group>
     </dependencies>
   </metadata>
